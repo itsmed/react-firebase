@@ -11,13 +11,17 @@ class App extends Component {
       newData: '',
     };
 
+    this.dataRef = null;
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
+    this.dataRef = database.ref('AMAZING-NEW-DATA/cool/stuff')
+    
     database.ref().on('value', (snap) => {
-      this.setState({
+        this.setState({
         data: snap.val()
       });
     });
@@ -32,8 +36,7 @@ class App extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    database.ref('/AMAZING-NEW-DATA')
-      .push(this.state.newData);
+    this.dataRef.push(this.state.newData);
     
     this.setState({ newData: '' });
   }
